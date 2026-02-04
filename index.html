@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine?</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            background-color: #fde2e4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            color: #d32f2f;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .main-image {
+            width: 200px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            height: 100px; /* Buffer for growth */
+        }
+
+        #yesBtn {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 25px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+
+        /* Fixed No Button CSS */
+        #noBtn {
+            background-color: #f44336;
+            color: white;
+            padding: 10px 25px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            position: relative; /* Starts in flow, then goes absolute */
+            transition: 0.1s;
+        }
+
+        .celebration-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="quiz-container">
+        <img id="capoo-gif" class="main-image" src="https://media.tenor.com/Gp2PDF56kYcAAAAj/capoo-cat.gif" alt="Capoo GIF">
+        <h1>Will you be my Valentine?</h1>
+        
+        <div class="btn-container">
+            <button id="yesBtn" onclick="showCelebration()">Yes</button>
+            <button id="noBtn" onmouseover="handleNoHover()" onclick="handleNoHover()">No</button>
+        </div>
+    </div>
+
+    <div id="celebration" class="celebration-container">
+        <h1 style="font-size: 3rem;">Knew you would say yes! 🥰</h1>
+        <img src="https://media.tenor.com/VbUvzxzbgL4AAAAi/bug-cat.gif" alt="Capoo Hug" style="width: 350px;">
+    </div>
+
+    <script>
+        const messages = [
+            "No",
+            "Are you sure?",
+            "Really sure??",
+            "Are you positive?",
+            "Boobeee please...",
+            "Just think about it!",
+            "If you say no, I will be really sad...",
+            "I will be very sad...",
+            "I will be very very very sad...",
+            "Ok fine, I will stop asking...",
+            "Just kidding, PLEASE SAY YES ❤️"
+        ];
+
+        let messageIndex = 0;
+        let yesFontSize = 1.2;
+
+        function handleNoHover() {
+            const noBtn = document.getElementById('noBtn');
+            const yesBtn = document.getElementById('yesBtn');
+
+            // Switch to absolute positioning so it can move anywhere
+            noBtn.style.position = 'absolute';
+
+            // Calculate random positions
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            
+            noBtn.style.left = `${x}px`;
+            noBtn.style.top = `${y}px`;
+
+            // Change text
+            messageIndex = (messageIndex + 1) % messages.length;
+            noBtn.innerText = messages[messageIndex];
+
+            // Grow Yes button
+            yesFontSize += 0.4;
+            yesBtn.style.fontSize = `${yesFontSize}rem`;
+            yesBtn.style.padding = `${10 + (yesFontSize * 2)}px ${25 + (yesFontSize * 5)}px`;
+        }
+
+        function showCelebration() {
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('celebration').style.display = 'flex';
+            
+            // Launch Confetti!
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#ff4081', '#ff80ab', '#f44336', '#ffffff']
+            });
+        }
+    </script>
+</body>
+</html>
